@@ -5,6 +5,7 @@ type TProps = {
   lowSrc: string;
 };
 
+// TODO load 3 in a row. Load top first. Then push next row.
 export const PhotoPost: FC<TProps> = memo(({ lowSrc, highSrc }) => {
   const [isHighLoaded, setIsHighLoaded] = useState(false);
 
