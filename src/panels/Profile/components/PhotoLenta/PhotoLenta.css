@@ -21,4 +21,17 @@
 .PhotoLenta__postPhoto {
   object-fit: cover;
   width: 100%;
+  height: 100%;
+}
+
+.PhotoLenta__postPhoto--high {
+  display: none;
+}
+
+.PhotoLenta__postPhoto--loaded + .PhotoLenta__postPhoto--low {
+  display: none;
+}
+
+.PhotoLenta__postPhoto--loaded {
+  display: block;
 }
