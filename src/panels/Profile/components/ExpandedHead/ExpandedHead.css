@@ -1,0 +1,35 @@
+.ExpandedHead {
+  margin: 8px 12px 0;
+}
+
+.ExpandedHead__container {
+  display: flex;
+}
+
+.ExpandedHead__avatarBox {
+  margin-right: 16px;
+}
+
+.ExpandedHead__avatarBox .Avatar__img {
+  object-fit: cover;
+}
+
+.ExpandedHead__mainInfoBox {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.vkuiSubhead.ExpandedHead__statusBox {
+  display: block;
+  margin-top: 3px;
+}
+
+.Profile__name {
+  font-size: 21px;
+  line-height: 26px;
+}
+
+.ExpandedHead__buttonsBox {
+  margin-top: 8px;
+}

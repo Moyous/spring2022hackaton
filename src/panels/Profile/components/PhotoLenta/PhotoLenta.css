@@ -1,0 +1,24 @@
+.PhotoLenta {
+
+}
+
+.PhotoLenta__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.PhotoLenta__postBox {
+  display: flex;
+  overflow: hidden;
+}
+
+.PhotoLenta__postBox:before {
+  content: '';
+  display: block;
+  padding-top: 100%;
+}
+
+.PhotoLenta__postPhoto {
+  object-fit: cover;
+  width: 100%;
+}

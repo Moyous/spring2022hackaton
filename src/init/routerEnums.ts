@@ -9,4 +9,5 @@ export enum PanelIds {
 
 export enum ModalIds {
   TestModal = "TestModal",
+  PhotoPostModal = "PhotoPostModal",
 }

@@ -1,0 +1,7 @@
+.MainMenu__box {
+  margin-top: 0;
+}
+
+.MainMenu__button {
+  transition: none;
+}
