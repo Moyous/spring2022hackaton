@@ -1,0 +1,12 @@
+.Init_placeholder {
+  display: flex;
+  flex-direction: column;
+}
+
+.Init_placeholder.vkuiPlaceholder {
+  flex: 1;
+}
+
+.Init_progress {
+  margin-bottom: 8px;
+}

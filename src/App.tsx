@@ -1,14 +1,7 @@
-import { FC, ReactNode, useRef, useState, ChangeEvent } from "react";
+import { ChangeEvent, FC, ReactNode, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  ActionSheet,
-  ActionSheetItem,
-  File,
-  Progress,
-  Spacing,
-  View,
-} from "@vkontakte/vkui";
+import { ActionSheet, ActionSheetItem, File, View } from "@vkontakte/vkui";
 
 import { selectActivePanel } from "store/router/selectors/selectActivePanel";
 import { selectPanelHistory } from "store/router/selectors/selectPanelHistory";
@@ -32,6 +25,12 @@ import { setActiveProfile } from "./store/lenta/sets/setActiveProfile";
 import "./App.css";
 import { selectToken } from "./store/lenta/selectors/selectToken";
 import { pushImage } from "./store/lenta/sets/pushImage";
+import {
+  Onboarding,
+  Onboarding2,
+  Onboarding3,
+} from "./panels/Onboarding/Onboarding";
+import { Initial } from "./panels/Initial/Initial";
 
 export const App: FC = () => {
   const dispatch = useDispatch();
@@ -199,14 +198,15 @@ export const App: FC = () => {
           before={<Icon28ShareOutline />}
           onClick={shareProfile}
         >
-          Поделиться профилем
+          Поделиться
         </ActionSheetItem>
         <ActionSheetItem
           before={<Icon28AddOutline />}
           className="App_loadFileBox"
-          subtitle="Загрузить новое фото"
+          onClick={() => loadFileTargetRef.current?.click()}
         >
           <File
+            className="App_loadFileInput"
             controlSize="l"
             mode="secondary"
             stretched
@@ -216,8 +216,7 @@ export const App: FC = () => {
               void uploadPhoto(e.currentTarget.files);
             }}
           />
-          <Spacing size={8} />
-          <Progress value={0} />
+          Загрузить
         </ActionSheetItem>
       </ActionSheet>
     );
@@ -243,6 +242,10 @@ export const App: FC = () => {
         openMenu={openMenu}
         menuTargetRef={menuTargetRef}
       />
+      <Onboarding id={PanelIds.Onboarding} />
+      <Onboarding2 id={PanelIds.Onboarding2} />
+      <Onboarding3 id={PanelIds.Onboarding3} />
+      <Initial id={PanelIds.Initial} />
     </View>
   );
 };

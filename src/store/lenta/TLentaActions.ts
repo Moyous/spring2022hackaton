@@ -12,6 +12,7 @@ import { successGetProfile } from "./sets/successGetProfile";
 import { failureGetProfile } from "./sets/failureGetProfile";
 import { setOwnProfile } from "./sets/setOwnProfile";
 import { pushImage } from "./sets/pushImage";
+import { setIsOnboardingPassed } from "./sets/setIsOnboardingPassed";
 
 export type TLentaActions = ReturnType<
   | typeof setActiveLenta
@@ -28,4 +29,5 @@ export type TLentaActions = ReturnType<
   | typeof failureGetProfile
   | typeof setOwnProfile
   | typeof pushImage
+  | typeof setIsOnboardingPassed
 >;

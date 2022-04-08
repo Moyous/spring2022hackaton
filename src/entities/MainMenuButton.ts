@@ -7,6 +7,7 @@ import {
 } from "@vkontakte/icons";
 import { FC } from "react";
 import { PhotoLenta } from "../panels/Profile/components/PhotoLenta/PhotoLenta";
+import { OtherLenta } from "../panels/Profile/components/OtherLenta/OtherLenta";
 
 type TMenuItem = {
   title: string;
@@ -39,21 +40,21 @@ export const menuItems: Record<ELentaType, TMenuItem> = {
   [ELentaType.CLIPS]: {
     title: "Клипы",
     Icon: Icon20GestureOutline,
-    Lenta: () => null,
+    Lenta: OtherLenta,
   },
   [ELentaType.VIDEOS]: {
     title: "Видео",
     Icon: Icon20VideoCircleOutline,
-    Lenta: () => null,
+    Lenta: OtherLenta,
   },
   [ELentaType.TEXTS]: {
     title: "ВКиты",
     Icon: Icon20ListPenOutline,
-    Lenta: () => null,
+    Lenta: OtherLenta,
   },
   [ELentaType.LENTA]: {
     title: "Всё",
     Icon: Icon20TrashSmileOutline,
-    Lenta: () => null,
+    Lenta: OtherLenta,
   },
 };

@@ -4,6 +4,10 @@ export enum ViewIds {
 
 export enum PanelIds {
   Profile = "Profile",
+  Onboarding = "Onboarding1",
+  Onboarding2 = "Onboarding2",
+  Onboarding3 = "Onboarding3",
+  Initial = "Initial",
 }
 
 export enum ModalIds {

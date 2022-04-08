@@ -16,4 +16,5 @@ export type TLentaStore = {
   activeProfile: TProfile | null;
   ownProfileId: number | null;
   localImagesAddonCount: number;
+  isOnboardingPassed: boolean;
 };

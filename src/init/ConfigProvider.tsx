@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, useCallback } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 
 import bridge, {
   AnyReceiveMethodName,
@@ -10,21 +10,57 @@ import bridge, {
 
 import { ConfigProvider as VKUIConfigProvider, Scheme } from "@vkontakte/vkui";
 import { Adaptive } from "./Adaptive";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setToken } from "../store/lenta/sets/setToken";
 import { setActiveProfile } from "../store/lenta/sets/setActiveProfile";
 import { setOwnProfile } from "../store/lenta/sets/setOwnProfile";
+import { setActivePanel } from "../store/router/sets/setActivePanel";
+import { PanelIds } from "./routerEnums";
+import { selectIsOnboardingPassed } from "../store/lenta/selectors/selectIsOnboardingPassed";
+import { setIsOnboardingPassed } from "../store/lenta/sets/setIsOnboardingPassed";
 
 export const ConfigProvider: FC = () => {
   const dispatch = useDispatch();
+  const [checkIsPassed, setCheckIsPassed] = useState(false);
+  const isOnboardingPassed = useSelector(selectIsOnboardingPassed);
   const [scheme, setScheme] = useState<AppearanceSchemeType>(
     Scheme.BRIGHT_LIGHT
   );
+
+  useEffect(() => {
+    if (!checkIsPassed) {
+      return;
+    }
+
+    if (isOnboardingPassed) {
+      setTimeout(() => dispatch(setActivePanel(PanelIds.Profile)), 2000);
+    } else {
+      setTimeout(() => dispatch(setActivePanel(PanelIds.Onboarding)), 2000);
+    }
+  }, [isOnboardingPassed, checkIsPassed]);
 
   const bridgeListener = useCallback(
     ({ detail: { type, data } }: VKBridgeEvent<AnyReceiveMethodName>) => {
       if (type === "VKWebAppUpdateConfig") {
         setScheme((data as VKUpdateConfigData).scheme);
+      }
+
+      if (type === "VKWebAppStorageGetResult") {
+        // @ts-ignore
+        const isPassed = data.keys.find(
+          // @ts-ignore
+          ({ key }) => key === "isOnboardingPassed"
+        );
+
+        if (isPassed) {
+          dispatch(setIsOnboardingPassed(isPassed.value === "1"));
+          setCheckIsPassed(true);
+        } else {
+          void bridge.send("VKWebAppStorageSet", {
+            key: "isOnboardingPassed",
+            value: "0",
+          });
+        }
       }
 
       if (type === "VKWebAppAccessTokenReceived") {
@@ -64,11 +100,9 @@ export const ConfigProvider: FC = () => {
   useEffect(() => {
     bridge.subscribe(bridgeListener);
     void bridge.send("VKWebAppInit");
-    void bridge.send("VKWebAppGetAuthToken", {
-      app_id: 8130038,
-      scope: "photos,wall",
+    void bridge.send("VKWebAppStorageGet", {
+      keys: ["isOnboardingPassed"],
     });
-    void bridge.send("VKWebAppGetUserInfo");
 
     return () => bridge.unsubscribe(bridgeListener);
   }, []);

@@ -1,3 +1,7 @@
 .App_loadFileBox .vkuiHeadline {
   width: 100%;
 }
+
+.App_loadFileInput.vkuiButton {
+  display: none;
+}

@@ -1,0 +1,22 @@
+.Onboarding__placeholder {
+  display: flex;
+  flex-direction: column;
+}
+
+.Onboarding__placeholder.vkuiPlaceholder {
+  flex: 1;
+}
+
+.Onboarding__placeholder.vkuiPlaceholder .vkuiPlaceholder__text {
+  color: var(--text_primary);
+}
+
+.Onboarding__image {
+  display: block;
+}
+
+.Onboarding__placeholder.vkuiPlaceholder .vkuiPlaceholder__text {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}

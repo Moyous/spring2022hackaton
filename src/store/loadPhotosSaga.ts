@@ -1,4 +1,4 @@
-import { put, call, select } from "redux-saga/effects";
+import { call, put, select } from "redux-saga/effects";
 import { SagaIterator } from "redux-saga";
 import { failureGetPhotos } from "./lenta/sets/failureGetPhotos";
 import { successGetPhotos } from "./lenta/sets/successGetPhotos";
@@ -18,7 +18,7 @@ export function* loadPhotosSaga(): SagaIterator {
       return;
     }
 
-    const response = yield call(bridge.send, "VKWebAppCallAPIMethod", {
+    let response = yield call(bridge.send, "VKWebAppCallAPIMethod", {
       method: "photos.getAll",
       request_id: `photos.getAll.${Date.now()}`,
       params: {
