@@ -6,8 +6,7 @@ import {
   PanelHeaderButton,
   PanelHeaderContent,
 } from "@vkontakte/vkui";
-import { FC, memo, useMemo } from "react";
-import { ExpandedHead } from "./components/ExpandedHead/ExpandedHead";
+import { FC, memo, RefObject, useMemo } from "react";
 import { MainMenu } from "./components/MainMenu/MainMenu";
 import { useSelector } from "react-redux";
 import { selectActiveLenta } from "../../store/lenta/selectors/selectActiveLenta";
@@ -15,7 +14,12 @@ import { menuItems } from "../../entities/MainMenuButton";
 import { Icon28Menu } from "@vkontakte/icons";
 import { selectProfileState } from "../../store/lenta/selectors/selectProfileState";
 
-export const Profile: FC<TPanel> = memo(({ id }) => {
+type TProps = TPanel & {
+  openMenu: () => void;
+  menuTargetRef: RefObject<HTMLButtonElement>;
+};
+
+export const Profile: FC<TProps> = memo(({ id, menuTargetRef, openMenu }) => {
   const { data } = useSelector(selectProfileState);
 
   const activeLenta = useSelector(selectActiveLenta);
@@ -32,15 +36,15 @@ export const Profile: FC<TPanel> = memo(({ id }) => {
     return;
   }, [data]);
 
-  const onOpenMenu = () => {
-    console.log("open");
-  };
-
   return (
     <Panel id={id}>
       <PanelHeader
         left={
-          <PanelHeaderButton onClick={onOpenMenu}>
+          <PanelHeaderButton
+            onClick={openMenu}
+            getRootRef={menuTargetRef}
+            aria-label="Меню"
+          >
             <Icon28Menu />
           </PanelHeaderButton>
         }
@@ -52,7 +56,6 @@ export const Profile: FC<TPanel> = memo(({ id }) => {
           {data?.name}
         </PanelHeaderContent>
       </PanelHeader>
-      <ExpandedHead />
       <MainMenu />
       <Lenta />
     </Panel>

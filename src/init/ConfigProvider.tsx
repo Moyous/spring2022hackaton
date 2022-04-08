@@ -39,6 +39,20 @@ export const ConfigProvider: FC = () => {
         dispatch(
           setOwnProfile((data as ReceiveDataMap["VKWebAppGetUserInfo"]).id)
         );
+
+        if (window.location.hash) {
+          let maybeProfile = window.location.hash
+            .slice(1)
+            .split("&")
+            .map((entries) => entries.split("="))
+            .find(([prop]) => prop === "profile");
+
+          if (maybeProfile) {
+            dispatch(setActiveProfile(+maybeProfile[1]));
+            return;
+          }
+        }
+
         dispatch(
           setActiveProfile((data as ReceiveDataMap["VKWebAppGetUserInfo"]).id)
         );

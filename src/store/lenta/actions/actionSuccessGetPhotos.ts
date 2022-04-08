@@ -7,5 +7,6 @@ export const actionSuccessGetPhotos = (
 ): TLentaStore => ({
   ...state,
   isPhotosLoading: false,
+  isPhotosLoaded: true,
   photos,
 });

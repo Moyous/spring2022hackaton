@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fireGetProfile } from "../store/lenta/sets/fireGetProfile";
 import { selectProfileState } from "../store/lenta/selectors/selectProfileState";
 import { selectToken } from "../store/lenta/selectors/selectToken";
+import bridge from "@vkontakte/vk-bridge";
 
 export const ProfileLoader: FC = memo(() => {
   const dispatch = useDispatch();
@@ -16,17 +17,25 @@ export const ProfileLoader: FC = memo(() => {
       !isLoading &&
       !error &&
       accessToken &&
-      !localLoading &&
-      id
+      id &&
+      !localLoading
     ) {
       setLocalLoading(true);
       dispatch(fireGetProfile(id));
     }
-  }, [error, isLoaded, isLoading, accessToken, id]);
+  }, [isLoaded, isLoading, error, accessToken, id, localLoading]);
 
   useEffect(() => {
-    setLocalLoading(false);
+    if (isLoaded) {
+      setLocalLoading(false);
+    }
   }, [isLoaded]);
+
+  useEffect(() => {
+    void bridge.send("VKWebAppSetLocation", {
+      location: id ? `profile=${id}` : "",
+    });
+  }, [id]);
 
   return null;
 });

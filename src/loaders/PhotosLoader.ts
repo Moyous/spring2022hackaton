@@ -18,17 +18,23 @@ export const PhotosLoader: FC = memo(() => {
       !isLoading &&
       !error &&
       accessToken &&
-      !localLoading &&
-      id
+      id &&
+      !localLoading
     ) {
       setLocalLoading(true);
       dispatch(fireGetPhotos());
     }
-  }, [error, isLoaded, isLoading, accessToken, id]);
+  }, [isLoaded, isLoading, error, accessToken, id, localLoading]);
 
   useEffect(() => {
-    setLocalLoading(false);
+    if (isLoaded) {
+      setLocalLoading(false);
+    }
   }, [isLoaded]);
+
+  useEffect(() => {
+    console.log("LOCAL LOADING CHANGE", localLoading);
+  }, [localLoading]);
 
   return null;
 });

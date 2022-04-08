@@ -9,4 +9,6 @@ export const actionSuccessGetProfile = (
   isProfileLoading: false,
   activeProfile: data,
   isProfileLoaded: true,
+  photos: [],
+  isPhotosLoaded: false,
 });

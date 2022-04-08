@@ -56,6 +56,7 @@ export function* loadProfileSaga({
 
       if (profile) {
         yield put(successGetProfile(profile));
+        return;
       }
     }
 
