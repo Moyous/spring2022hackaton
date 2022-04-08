@@ -11,7 +11,6 @@ import router from "init/router";
 import { PanelIds } from "init/routerEnums";
 
 import { RootModal } from "./modals/RootModal";
-import { Home } from "./panels/Home/Home";
 import { Profile } from "./panels/Profile/Profile";
 
 export const App: FC = () => {
@@ -34,7 +33,6 @@ export const App: FC = () => {
       modal={<RootModal />}
       activePanel={activePanel}
     >
-      <Home id={PanelIds.Home} />
       <Profile id={PanelIds.Profile} />
     </View>
   );

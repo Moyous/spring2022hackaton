@@ -7,7 +7,6 @@ import { selectActiveModal } from "store/router/selectors/selectActiveModal";
 import router from "init/router";
 import { ModalIds } from "init/routerEnums";
 
-import { TestModal } from "./TestModal/TestModal";
 import { PhotoPostModal } from "./PhotoPostModal/PhotoPostModal";
 
 export const RootModal: FC = memo(() => {
@@ -16,7 +15,6 @@ export const RootModal: FC = memo(() => {
 
   return (
     <ModalRoot activeModal={activeModal}>
-      <TestModal id={ModalIds.TestModal} onClose={modalBack} />
       <PhotoPostModal id={ModalIds.PhotoPostModal} onClose={modalBack} />
     </ModalRoot>
   );

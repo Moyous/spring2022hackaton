@@ -3,11 +3,9 @@ export enum ViewIds {
 }
 
 export enum PanelIds {
-  Home = "Home",
   Profile = "Profile",
 }
 
 export enum ModalIds {
-  TestModal = "TestModal",
   PhotoPostModal = "PhotoPostModal",
 }

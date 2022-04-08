@@ -17,6 +17,7 @@ import { selectProfileState } from "../../store/lenta/selectors/selectProfileSta
 
 export const Profile: FC<TPanel> = memo(({ id }) => {
   const { data } = useSelector(selectProfileState);
+
   const activeLenta = useSelector(selectActiveLenta);
   const { Lenta } = useMemo(() => menuItems[activeLenta], [activeLenta]);
   const badge = useMemo((): "online-mobile" | "online" | undefined => {
@@ -31,11 +32,15 @@ export const Profile: FC<TPanel> = memo(({ id }) => {
     return;
   }, [data]);
 
+  const onOpenMenu = () => {
+    console.log("open");
+  };
+
   return (
     <Panel id={id}>
       <PanelHeader
         left={
-          <PanelHeaderButton>
+          <PanelHeaderButton onClick={onOpenMenu}>
             <Icon28Menu />
           </PanelHeaderButton>
         }
