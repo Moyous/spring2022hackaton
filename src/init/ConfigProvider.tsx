@@ -10,34 +10,19 @@ import bridge, {
 
 import { ConfigProvider as VKUIConfigProvider, Scheme } from "@vkontakte/vkui";
 import { Adaptive } from "./Adaptive";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setToken } from "../store/lenta/sets/setToken";
 import { setActiveProfile } from "../store/lenta/sets/setActiveProfile";
 import { setOwnProfile } from "../store/lenta/sets/setOwnProfile";
 import { setActivePanel } from "../store/router/sets/setActivePanel";
 import { PanelIds } from "./routerEnums";
-import { selectIsOnboardingPassed } from "../store/lenta/selectors/selectIsOnboardingPassed";
 import { setIsOnboardingPassed } from "../store/lenta/sets/setIsOnboardingPassed";
 
 export const ConfigProvider: FC = () => {
   const dispatch = useDispatch();
-  const [checkIsPassed, setCheckIsPassed] = useState(false);
-  const isOnboardingPassed = useSelector(selectIsOnboardingPassed);
   const [scheme, setScheme] = useState<AppearanceSchemeType>(
     Scheme.BRIGHT_LIGHT
   );
-
-  useEffect(() => {
-    if (!checkIsPassed) {
-      return;
-    }
-
-    if (isOnboardingPassed) {
-      setTimeout(() => dispatch(setActivePanel(PanelIds.Profile)), 2000);
-    } else {
-      setTimeout(() => dispatch(setActivePanel(PanelIds.Onboarding)), 2000);
-    }
-  }, [isOnboardingPassed, checkIsPassed]);
 
   const bridgeListener = useCallback(
     ({ detail: { type, data } }: VKBridgeEvent<AnyReceiveMethodName>) => {
@@ -54,12 +39,20 @@ export const ConfigProvider: FC = () => {
 
         if (isPassed) {
           dispatch(setIsOnboardingPassed(isPassed.value === "1"));
-          setCheckIsPassed(true);
+          if (isPassed.value === "1") {
+            setTimeout(() => dispatch(setActivePanel(PanelIds.Profile)), 2000);
+          } else {
+            setTimeout(
+              () => dispatch(setActivePanel(PanelIds.Onboarding)),
+              2000
+            );
+          }
         } else {
           void bridge.send("VKWebAppStorageSet", {
             key: "isOnboardingPassed",
             value: "0",
           });
+          setTimeout(() => dispatch(setActivePanel(PanelIds.Onboarding)), 2000);
         }
       }
 
