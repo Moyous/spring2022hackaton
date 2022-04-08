@@ -13,6 +13,7 @@ import { actionSetActiveProfile } from "./actions/actionSetActiveProfile";
 import { actionFireGetProfile } from "./actions/actionFireGetProfile";
 import { actionSuccessGetProfile } from "./actions/actionSuccessGetProfile";
 import { actionFailureGetProfile } from "./actions/actionFailureGetProfile";
+import { actionSetOwnProfile } from "./actions/actionSetOwnProfile";
 
 export const lentaReducer = (
   state = lentaStore,
@@ -43,6 +44,8 @@ export const lentaReducer = (
       return actionSuccessGetProfile(state, action.data);
     case "getProfile/failure":
       return actionFailureGetProfile(state, action.data);
+    case "ownProfile/set":
+      return actionSetOwnProfile(state, action.data);
     default:
       return state;
   }

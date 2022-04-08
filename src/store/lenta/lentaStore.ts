@@ -13,4 +13,5 @@ export const lentaStore: TLentaStore = {
   isProfileLoading: false,
   isProfileLoaded: false,
   activeProfile: null,
+  ownProfileId: null,
 };

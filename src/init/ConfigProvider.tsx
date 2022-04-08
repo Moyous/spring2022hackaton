@@ -13,6 +13,7 @@ import { Adaptive } from "./Adaptive";
 import { useDispatch } from "react-redux";
 import { setToken } from "../store/lenta/sets/setToken";
 import { setActiveProfile } from "../store/lenta/sets/setActiveProfile";
+import { setOwnProfile } from "../store/lenta/sets/setOwnProfile";
 
 export const ConfigProvider: FC = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,9 @@ export const ConfigProvider: FC = () => {
       }
 
       if (type === "VKWebAppGetUserInfoResult") {
+        dispatch(
+          setOwnProfile((data as ReceiveDataMap["VKWebAppGetUserInfo"]).id)
+        );
         dispatch(
           setActiveProfile((data as ReceiveDataMap["VKWebAppGetUserInfo"]).id)
         );

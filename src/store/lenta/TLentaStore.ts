@@ -14,4 +14,5 @@ export type TLentaStore = {
   isProfileLoading: boolean;
   isProfileLoaded: boolean;
   activeProfile: TProfile | null;
+  ownProfileId: number | null;
 };
