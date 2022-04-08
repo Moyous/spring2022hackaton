@@ -38,8 +38,8 @@ export const ConfigProvider: FC = () => {
         );
 
         if (isPassed) {
-          dispatch(setIsOnboardingPassed(isPassed.value === "1"));
-          if (isPassed.value === "1") {
+          dispatch(setIsOnboardingPassed(isPassed.value === "2"));
+          if (isPassed.value === "2") {
             setTimeout(() => dispatch(setActivePanel(PanelIds.Profile)), 2000);
           } else {
             setTimeout(
