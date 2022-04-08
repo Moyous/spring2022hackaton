@@ -11,6 +11,7 @@ import { fireGetProfile } from "./sets/fireGetProfile";
 import { successGetProfile } from "./sets/successGetProfile";
 import { failureGetProfile } from "./sets/failureGetProfile";
 import { setOwnProfile } from "./sets/setOwnProfile";
+import { pushImage } from "./sets/pushImage";
 
 export type TLentaActions = ReturnType<
   | typeof setActiveLenta
@@ -26,4 +27,5 @@ export type TLentaActions = ReturnType<
   | typeof successGetProfile
   | typeof failureGetProfile
   | typeof setOwnProfile
+  | typeof pushImage
 >;

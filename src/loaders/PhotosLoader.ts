@@ -32,9 +32,5 @@ export const PhotosLoader: FC = memo(() => {
     }
   }, [isLoaded]);
 
-  useEffect(() => {
-    console.log("LOCAL LOADING CHANGE", localLoading);
-  }, [localLoading]);
-
   return null;
 });

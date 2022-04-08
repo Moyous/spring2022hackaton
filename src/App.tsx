@@ -1,7 +1,14 @@
-import { FC, ReactNode, useRef, useState } from "react";
+import { FC, ReactNode, useRef, useState, ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { ActionSheet, ActionSheetItem, View } from "@vkontakte/vkui";
+import {
+  ActionSheet,
+  ActionSheetItem,
+  File,
+  Progress,
+  Spacing,
+  View,
+} from "@vkontakte/vkui";
 
 import { selectActivePanel } from "store/router/selectors/selectActivePanel";
 import { selectPanelHistory } from "store/router/selectors/selectPanelHistory";
@@ -22,6 +29,10 @@ import { selectActiveProfileId } from "./store/lenta/selectors/selectActiveProfi
 import { selectOwnProfileId } from "./store/lenta/selectors/selectOwnProfileId";
 import { setActiveProfile } from "./store/lenta/sets/setActiveProfile";
 
+import "./App.css";
+import { selectToken } from "./store/lenta/selectors/selectToken";
+import { pushImage } from "./store/lenta/sets/pushImage";
+
 export const App: FC = () => {
   const dispatch = useDispatch();
   const activePanel = useSelector(selectActivePanel);
@@ -32,6 +43,9 @@ export const App: FC = () => {
   const menuTargetRef = useRef<HTMLButtonElement>(null);
   const profileId = useSelector(selectActiveProfileId);
   const ownProfileId = useSelector(selectOwnProfileId);
+  const accessToken = useSelector(selectToken);
+  const loadFileTargetRef = useRef<HTMLButtonElement>(null);
+
   const shareProfile = () => {
     void bridge.send("VKWebAppShare", {
       link: `vk.com/app8130038#profile=${profileId}`,
@@ -40,6 +54,123 @@ export const App: FC = () => {
   const backToOwnProfile = () => {
     if (ownProfileId) {
       dispatch(setActiveProfile(ownProfileId));
+    }
+  };
+
+  const uploadPhoto = async (files: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (!files || !(files as FileList)[0]) {
+      return;
+    }
+
+    const fileReader = new FileReader();
+
+    // @ts-ignore
+    const event = () => {
+      if (fileReader.result && typeof fileReader.result === "string") {
+        dispatch(pushImage(fileReader.result));
+        onClose();
+      }
+    };
+
+    fileReader.addEventListener("load", event);
+    fileReader.readAsDataURL((files as FileList)[0]);
+
+    // TODO resolve upload to server
+    return;
+
+    if (ownProfileId !== null && accessToken !== null) {
+      const response = await bridge.send("VKWebAppCallAPIMethod", {
+        method: "photos.getAlbums",
+        params: {
+          // @ts-ignore
+          owner_id: ownProfileId,
+          // @ts-ignore
+          access_token: accessToken,
+          v: "5.131",
+        },
+      });
+
+      let distAlbum = response.response.items.find(
+        // @ts-ignore
+        ({ title }) => title === "__space__"
+      );
+
+      if (!distAlbum) {
+        const distAlbumResponse = await bridge.send("VKWebAppCallAPIMethod", {
+          method: "photos.createAlbum",
+          params: {
+            title: "__space__",
+            description: "Альбом для загрузки фото из приложения SPACE",
+            // @ts-ignore
+            access_token: accessToken,
+            v: "5.131",
+          },
+        });
+
+        distAlbum = distAlbumResponse.response;
+      }
+
+      if (!distAlbum?.id) {
+        // TODO throw error with snackbar
+        return;
+      }
+      const uploadServer = await bridge.send("VKWebAppCallAPIMethod", {
+        method: "photos.getUploadServer",
+        params: {
+          album_id: distAlbum.id,
+          // @ts-ignore
+          access_token: accessToken,
+          v: "5.131",
+        },
+      });
+
+      if (
+        !uploadServer.response?.upload_url ||
+        !uploadServer.response.album_id ||
+        !uploadServer.response.user_id
+      ) {
+        // TODO throw error with snackbar
+        return;
+      }
+
+      // const files = await promiseFileLoad;
+      const files = new FileList();
+
+      try {
+        const formData = new FormData();
+        formData.append("file1", files[0]);
+
+        const rawResult = await fetch(uploadServer.response.upload_url, {
+          method: "POST",
+          body: formData,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        const parsedResult = await rawResult.json();
+
+        if (!parsedResult.response.photos_list) {
+          return;
+        }
+
+        const savePhotosResult = await bridge.send("VKWebAppCallAPIMethod", {
+          method: "photos.save",
+          params: {
+            server: parsedResult.response.server,
+            photos_list: parsedResult.response.photos_list,
+            aid: parsedResult.response.aid,
+            hash: parsedResult.response.hash,
+            // @ts-ignore
+            access_token: accessToken,
+            v: "5.131",
+          },
+        });
+
+        console.log(savePhotosResult);
+      } catch (e) {
+        return;
+      }
     }
   };
 
@@ -70,8 +201,23 @@ export const App: FC = () => {
         >
           Поделиться профилем
         </ActionSheetItem>
-        <ActionSheetItem autoclose before={<Icon28AddOutline />}>
-          Загрузить фото
+        <ActionSheetItem
+          before={<Icon28AddOutline />}
+          className="App_loadFileBox"
+          subtitle="Загрузить новое фото"
+        >
+          <File
+            controlSize="l"
+            mode="secondary"
+            stretched
+            getRootRef={loadFileTargetRef}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              // @ts-ignore
+              void uploadPhoto(e.currentTarget.files);
+            }}
+          />
+          <Spacing size={8} />
+          <Progress value={0} />
         </ActionSheetItem>
       </ActionSheet>
     );

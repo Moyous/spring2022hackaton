@@ -14,4 +14,5 @@ export const lentaStore: TLentaStore = {
   isProfileLoaded: false,
   activeProfile: null,
   ownProfileId: null,
+  localImagesAddonCount: -1,
 };

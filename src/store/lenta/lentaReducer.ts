@@ -14,6 +14,7 @@ import { actionFireGetProfile } from "./actions/actionFireGetProfile";
 import { actionSuccessGetProfile } from "./actions/actionSuccessGetProfile";
 import { actionFailureGetProfile } from "./actions/actionFailureGetProfile";
 import { actionSetOwnProfile } from "./actions/actionSetOwnProfile";
+import { actionPushImage } from "./actions/actionPushImage";
 
 export const lentaReducer = (
   state = lentaStore,
@@ -46,6 +47,8 @@ export const lentaReducer = (
       return actionFailureGetProfile(state, action.data);
     case "ownProfile/set":
       return actionSetOwnProfile(state, action.data);
+    case "image/push":
+      return actionPushImage(state, action.data);
     default:
       return state;
   }
