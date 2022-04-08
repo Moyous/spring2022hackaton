@@ -1,5 +1,6 @@
 import { ELentaType } from "../../entities/MainMenuButton";
 import { TPhoto } from "../../entities/PhotoPost";
+import { TProfile } from "../../entities/Profile";
 
 export type TLentaStore = {
   activeLentaType: ELentaType;
@@ -9,4 +10,8 @@ export type TLentaStore = {
   isPhotosLoaded: boolean;
   isPhotosLoading: boolean;
   error: string | null;
+  profileId: number | null;
+  isProfileLoading: boolean;
+  isProfileLoaded: boolean;
+  activeProfile: TProfile | null;
 };

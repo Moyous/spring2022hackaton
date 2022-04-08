@@ -9,4 +9,8 @@ export const lentaStore: TLentaStore = {
   isPhotosLoaded: false,
   isPhotosLoading: false,
   error: null,
+  profileId: null,
+  isProfileLoading: false,
+  isProfileLoaded: false,
+  activeProfile: null,
 };

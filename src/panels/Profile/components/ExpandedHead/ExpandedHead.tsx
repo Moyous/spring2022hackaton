@@ -15,25 +15,26 @@ import {
   Icon20UserOutline,
 } from "@vkontakte/icons";
 import "./ExpandedHead.css";
-
-// eslint-disable-next-line max-len
-const mockSrc =
-  "https://sun9-67.userapi.com/impg/q3DPjRYZW6vsCrI65iBqeeZD6GPNVJ8hfEFE-g/rVVmHrTjZtU.jpg?size=1440x1800&quality=96&sign=9bbc5d9a34a839d12edbc3cc5b143b9a&type=album";
+import { useSelector } from "react-redux";
+import { selectProfileState } from "../../../../store/lenta/selectors/selectProfileState";
 
 export const ExpandedHead: FC = memo(() => {
-  const status = "Маркетолог";
+  const { data } = useSelector(selectProfileState);
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <Card mode="shadow" className="ExpandedHead">
       <Div className="ExpandedHead__container">
         <div className="ExpandedHead__avatarBox">
-          <Avatar size={84} src={mockSrc} />
+          <Avatar size={84} src={data.avatarSrcHigh} />
         </div>
         <div className="ExpandedHead__mainInfoBox">
-          <Headline weight="semibold">Ника Сорокина</Headline>
-          {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
-          {status && (
-            <Subhead className="ExpandedHead__statusBox">{status}</Subhead>
+          <Headline weight="semibold">{data.name}</Headline>
+          {data.status && (
+            <Subhead className="ExpandedHead__statusBox">{data.status}</Subhead>
           )}
           <ButtonGroup stretched className="ExpandedHead__buttonsBox">
             <Button

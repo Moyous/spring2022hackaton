@@ -4,4 +4,6 @@ export type TPhoto = {
   text: string;
   lowSrc: string;
   highSrc: string;
+  isLiked: boolean;
+  likesCount: number;
 };

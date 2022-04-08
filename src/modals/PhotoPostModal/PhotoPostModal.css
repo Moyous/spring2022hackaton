@@ -1,0 +1,35 @@
+.vkuiDiv.PhotoPostModal_box {
+  box-sizing: border-box;
+  padding: 2px;
+  width: 100%;
+}
+
+.PhotoPostModal_img {
+  border-radius: 12px 12px 0 0;
+  width: 100%;
+}
+
+.PhotoPostModal_icon {
+  margin-right: 4px;
+
+  color: #cc00ff;
+}
+
+.vkuiDiv.PhotoPostModal_metaRow {
+  display: flex;
+  align-items: center;
+
+  padding: 4px 10px;
+}
+
+.vkuiDiv.PhotoPostModal_dateRow {
+  padding: 2px 16px 0;
+}
+
+.vkuiText.PhotoPostModal_likesCount {
+  font-size: 16px;
+}
+
+.vkuiText.PhotoPostModal_dateText {
+  color: var(--text_tertiary);
+}

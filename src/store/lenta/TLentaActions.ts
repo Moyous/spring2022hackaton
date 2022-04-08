@@ -4,6 +4,12 @@ import { setActivePhotoPost } from "./sets/setActivePhotoPost";
 import { fireGetPhotos } from "./sets/fireGetPhotos";
 import { failureGetPhotos } from "./sets/failureGetPhotos";
 import { successGetPhotos } from "./sets/successGetPhotos";
+import { addLike } from "./sets/addLike";
+import { removeLike } from "./sets/removeLike";
+import { setActiveProfile } from "./sets/setActiveProfile";
+import { fireGetProfile } from "./sets/fireGetProfile";
+import { successGetProfile } from "./sets/successGetProfile";
+import { failureGetProfile } from "./sets/failureGetProfile";
 
 export type TLentaActions = ReturnType<
   | typeof setActiveLenta
@@ -12,4 +18,10 @@ export type TLentaActions = ReturnType<
   | typeof fireGetPhotos
   | typeof successGetPhotos
   | typeof failureGetPhotos
+  | typeof addLike
+  | typeof removeLike
+  | typeof setActiveProfile
+  | typeof fireGetProfile
+  | typeof successGetProfile
+  | typeof failureGetProfile
 >;

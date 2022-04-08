@@ -12,7 +12,7 @@ export const PhotoLenta: FC = memo(() => {
     <Card className="PhotoLenta">
       <div className="PhotoLenta__grid">
         {data.map(({ id, lowSrc, highSrc }) => (
-          <PhotoPost key={id} lowSrc={lowSrc} highSrc={highSrc} />
+          <PhotoPost key={id} id={id} lowSrc={lowSrc} highSrc={highSrc} />
         ))}
       </div>
     </Card>

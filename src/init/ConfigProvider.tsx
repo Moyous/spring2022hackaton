@@ -12,6 +12,7 @@ import { ConfigProvider as VKUIConfigProvider, Scheme } from "@vkontakte/vkui";
 import { Adaptive } from "./Adaptive";
 import { useDispatch } from "react-redux";
 import { setToken } from "../store/lenta/sets/setToken";
+import { setActiveProfile } from "../store/lenta/sets/setActiveProfile";
 
 export const ConfigProvider: FC = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,12 @@ export const ConfigProvider: FC = () => {
           )
         );
       }
+
+      if (type === "VKWebAppGetUserInfoResult") {
+        dispatch(
+          setActiveProfile((data as ReceiveDataMap["VKWebAppGetUserInfo"]).id)
+        );
+      }
     },
     []
   );
@@ -39,7 +46,11 @@ export const ConfigProvider: FC = () => {
   useEffect(() => {
     bridge.subscribe(bridgeListener);
     void bridge.send("VKWebAppInit");
-    void bridge.send("VKWebAppGetAuthToken", { app_id: 8130038, scope: "" });
+    void bridge.send("VKWebAppGetAuthToken", {
+      app_id: 8130038,
+      scope: "photos,wall",
+    });
+    void bridge.send("VKWebAppGetUserInfo");
 
     return () => bridge.unsubscribe(bridgeListener);
   }, []);

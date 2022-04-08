@@ -1,16 +1,14 @@
 import { FC, memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fireGetPhotos } from "../store/lenta/sets/fireGetPhotos";
-import { selectPhotosState } from "../store/lenta/selectors/selectPhotosState";
+import { fireGetProfile } from "../store/lenta/sets/fireGetProfile";
+import { selectProfileState } from "../store/lenta/selectors/selectProfileState";
 import { selectToken } from "../store/lenta/selectors/selectToken";
-import { selectActiveProfileId } from "../store/lenta/selectors/selectActiveProfileId";
 
-export const PhotosLoader: FC = memo(() => {
+export const ProfileLoader: FC = memo(() => {
   const dispatch = useDispatch();
-  const id = useSelector(selectActiveProfileId);
   const accessToken = useSelector(selectToken);
   const [localLoading, setLocalLoading] = useState(false);
-  const { error, isLoaded, isLoading } = useSelector(selectPhotosState);
+  const { error, isLoaded, isLoading, id } = useSelector(selectProfileState);
 
   useEffect(() => {
     if (
@@ -22,7 +20,7 @@ export const PhotosLoader: FC = memo(() => {
       id
     ) {
       setLocalLoading(true);
-      dispatch(fireGetPhotos());
+      dispatch(fireGetProfile(id));
     }
   }, [error, isLoaded, isLoading, accessToken, id]);
 
