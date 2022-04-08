@@ -5,8 +5,19 @@
 }
 
 .PhotoPostModal_img {
-  border-radius: 12px 12px 0 0;
+  position: relative;
+  border-radius: 16px;
   width: 100%;
+}
+
+.PhotoPostModal_img:before {
+  content: '';
+  position: absolute;
+  background-color: #cc00ff;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .PhotoPostModal_icon {
@@ -32,4 +43,64 @@
 
 .vkuiText.PhotoPostModal_dateText {
   color: var(--text_tertiary);
+}
+
+#PhotoPostModal .vkuiModalCardBase__container {
+  padding: 0 0 16px;
+  border-radius: 16px;
+}
+
+.PhotoPostModal_imgBox {
+  position: relative;
+}
+
+.PhotoPostModal_bigLike {
+  display: none;
+  position: absolute;
+
+  color: #cc00ff;
+  opacity: .5;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(3, 3);
+}
+
+.PhotoPostModal_like--animated {
+  animation: inOutScale .3s ease-in-out;
+}
+
+@keyframes inOutScale {
+  from {
+    transform:scale(1,1);
+  }
+
+  33% {
+    transform:scale(1.25,1.25);
+  }
+
+  66% {
+    transform:scale(0.8,0.8);
+  }
+
+  to {
+    transform:scale(1,1);
+  }
+}
+
+.PhotoPostModal_bigLike--animated {
+  display: block;
+
+  animation: outScaleBig .3s ease-out;
+}
+
+@keyframes outScaleBig {
+  from {
+    transform: translate(-50%, -50%) scale(3, 3);
+    opacity: .5;
+  }
+
+  to {
+    transform: translate(-50%, -50%) scale(6, 6);
+    opacity: .1;
+  }
 }
